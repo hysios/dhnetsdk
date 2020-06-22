@@ -77,6 +77,11 @@ type Client struct {
 	LoginID int
 
 	DeviceInfo DeviceInfo
+
+	pictureVisitorp    unsafe.Pointer
+	messageVisitorp    unsafe.Pointer
+	disconnectVisitorp unsafe.Pointer
+	reconnectVisitorp  unsafe.Pointer
 	// SerialNumber []byte
 }
 
@@ -88,8 +93,9 @@ func ClientInit(callback DisconnectFunc) (*Client, error) {
 			Callback: callback,
 		}
 	)
-	p := pointer.Save(v)
 
+	p := pointer.Save(v)
+	cli.disconnectVisitorp = p
 	ret := C.CLIENT_Init(C.fDisConnect(C.cDisConnectFunc), (C.long)(uintptr(p)))
 	if ret > 0 {
 		return &cli, nil
@@ -108,8 +114,11 @@ func (client *Client) SetAutoReconnect(callback ReconnectFunc) error {
 		Client:   client,
 		Callback: callback,
 	}
-
+	if client.reconnectVisitorp != nil {
+		pointer.Unref(client.reconnectVisitorp)
+	}
 	p := pointer.Save(v)
+	client.reconnectVisitorp = p
 	// defer pointer.Unref(p)
 	C.CLIENT_SetAutoReconnect(C.fHaveReConnect(C.cReConnectFunc), (C.long)(uintptr(p)))
 	return nil
@@ -121,7 +130,11 @@ func (client *Client) SetDVRMessCallBack(callback DVRMessageFunc) error {
 		Callback: callback,
 	}
 
+	if client.messageVisitorp != nil {
+		pointer.Unref(client.messageVisitorp)
+	}
 	p := pointer.Save(&v)
+	client.messageVisitorp = p
 
 	C.CLIENT_SetDVRMessCallBack(C.fMessCallBack(C.cMessCallBack), (C.long)(uintptr(p)))
 	return nil
@@ -135,6 +148,30 @@ func (client *Client) StartListen() bool {
 func (client *Client) StopListen() bool {
 	b := C.CLIENT_StopListen(C.LLONG(client.LoginID))
 	return b > 0
+}
+
+func (client *Client) Close() error {
+	if client.pictureVisitorp != nil {
+		pointer.Unref(client.pictureVisitorp)
+		client.pictureVisitorp = nil
+	}
+
+	if client.disconnectVisitorp != nil {
+		pointer.Unref(client.disconnectVisitorp)
+		client.disconnectVisitorp = nil
+	}
+
+	if client.reconnectVisitorp != nil {
+		pointer.Unref(client.reconnectVisitorp)
+		client.reconnectVisitorp = nil
+	}
+
+	if client.messageVisitorp != nil {
+		pointer.Unref(client.messageVisitorp)
+		client.messageVisitorp = nil
+	}
+
+	return nil
 }
 
 // func (client *Client) AlarmReset() bool {

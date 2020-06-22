@@ -19,7 +19,7 @@ import (
 //export goDisconnect
 func goDisconnect(user_data unsafe.Pointer, ip *C.char, port C.int) {
 	if v, ok := pointer.Restore(user_data).(DisconnectVisitor); ok {
-		defer pointer.Unref(user_data)
+		// defer pointer.Unref(user_data)
 		if v.Callback != nil {
 			v.Callback(v.Client, C.GoString(ip), int(port))
 		}
@@ -30,7 +30,7 @@ func goDisconnect(user_data unsafe.Pointer, ip *C.char, port C.int) {
 //export goReConnect
 func goReConnect(user_data unsafe.Pointer, ip *C.char, port C.int) {
 	if v, ok := pointer.Restore(user_data).(ReconnectVisitor); ok {
-		defer pointer.Unref(user_data)
+		// defer pointer.Unref(user_data)
 		if v.Callback != nil {
 			v.Callback(v.Client, C.GoString(ip), int(port))
 		}
@@ -41,7 +41,7 @@ func goReConnect(user_data unsafe.Pointer, ip *C.char, port C.int) {
 //export goDvrMessage
 func goDvrMessage(user_data unsafe.Pointer, cmd C.int, buf *C.char, l C.int, ip *C.char, port C.int) {
 	if v, ok := pointer.Restore(user_data).(DrvMessageVisitor); ok {
-		defer pointer.Unref(user_data)
+		// defer pointer.Unref(user_data)
 		if v.Callback != nil {
 			v.Callback(v.Client, DhAlarmType(cmd), C.GoBytes(unsafe.Pointer(buf), l), C.GoString(ip), int(port))
 		}
@@ -61,7 +61,7 @@ func goSearchDevicesEx(user_data unsafe.Pointer, devinfoex *C.DEVICE_NET_INFO_EX
 //export goAnalyzerDataCallBack
 func goAnalyzerDataCallBack(user_data unsafe.Pointer, dwAlarmType C.DWORD, pAlarmInfo uintptr, pBuffer *C.char, dwBufSize C.DWORD, nSequence C.int) C.int {
 	if v, ok := pointer.Restore(user_data).(PictureExVistor); ok {
-		defer pointer.Unref(user_data)
+		// defer pointer.Unref(user_data)
 
 		if v.Callback != nil {
 			alarmType := EventIvs(dwAlarmType)
