@@ -146,6 +146,6 @@ func GoStr(ptr *C.char, n C.int) string {
 		}
 	}
 
-	return GoStr(ptr, C.int(max))
+	return C.GoStringN(ptr, C.int(max))
 
 }
