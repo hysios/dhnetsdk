@@ -44,7 +44,8 @@ type NetSearchDevice struct {
 	incptr  *C.NET_IN_STARTSERACH_DEVICE
 	outcptr *C.NET_OUT_STARTSERACH_DEVICE
 
-	Handle int
+	visitor *SearchVisitor
+	Handle  int
 }
 
 func (nsd *NetSearchDevice) init() {
@@ -65,13 +66,20 @@ func (nsd *NetSearchDevice) init() {
 
 func (nsd *NetSearchDevice) Start(callback SearchDeviceFunc, sendType SendSearchType) {
 	nsd.init()
-	var (
-		v = SearchVisitor{
+
+	if nsd.visitor != nil {
+		pointer.Unref(unsafe.Pointer(nsd.visitor))
+		nsd.visitor = &SearchVisitor{
 			Search:   nsd,
 			Callback: callback,
 		}
-	)
-	p := pointer.Save(v)
+	} else {
+		nsd.visitor = &SearchVisitor{
+			Search:   nsd,
+			Callback: callback,
+		}
+	}
+	p := pointer.Save(nsd.visitor)
 	nsd.incptr.cbSearchDevices = C.fSearchDevicesCBEx(C.cSearchDevicesCBEx)
 	nsd.incptr.pUserData = p
 	// nsd.incptr.emSendType = C.EM_SEND_SEARCH_TYPE(sendType)
@@ -98,6 +106,11 @@ func (nsd *NetSearchDevice) SetLocalIP(ip string) {
 }
 
 func (nsd *NetSearchDevice) Stop() bool {
+	if nsd.visitor != nil {
+		pointer.Unref(unsafe.Pointer(nsd.visitor))
+		nsd.visitor = nil
+	}
+
 	b := C.CLIENT_StopSearchDevices(C.LLONG(nsd.Handle))
 
 	return b > 0
