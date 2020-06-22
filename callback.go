@@ -50,7 +50,7 @@ func goDvrMessage(user_data unsafe.Pointer, cmd C.int, buf *C.char, l C.int, ip 
 
 //export goSearchDevicesEx
 func goSearchDevicesEx(user_data unsafe.Pointer, devinfoex *C.DEVICE_NET_INFO_EX2) {
-	if v, ok := pointer.Restore(user_data).(*SearchVisitor); ok {
+	if v, ok := pointer.Restore(user_data).(SearchVisitor); ok {
 		if v.Callback != nil {
 			devinfo := DeviceNetInfo{cptr: &devinfoex.stuDevInfo}
 			v.Callback(v.Search, &DeviceNetInfoEx{cptr: devinfoex, DeviceNetInfo: devinfo})
