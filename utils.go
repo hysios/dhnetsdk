@@ -141,7 +141,7 @@ func GoStr(ptr *C.char, n C.int) string {
 	for i := 0; i < max; i++ {
 		r := *(*rune)(unsafe.Pointer(uintptr(unsafe.Pointer(ptr)) + uintptr(i)))
 		if r == '\x00' {
-			max = i + 1
+			max = i
 			break
 		}
 	}
