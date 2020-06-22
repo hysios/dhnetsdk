@@ -52,7 +52,7 @@ func main() {
 	}
 
 	var security dhnetsdk.LoginSecurity
-	security.SetIP("192.168.1.108")
+	security.SetIP("192.168.1.190")
 	security.SetPort(37777)
 	security.SetUserName("admin")
 	security.SetPassword("admin123")
@@ -70,13 +70,14 @@ func main() {
 	log.Printf("ip %s, port %d\n", security.IP(), security.Port())
 	log.Printf("admin %s cap %v\n", security.UserName(), security.SpecCap())
 	// security.Print()
-	if err = client.Login("192.168.1.108:37777", "admin", "admin123"); err != nil {
+	ncli, err := client.Login("192.168.1.190:37777", "admin", "admin123")
+	if err != nil {
 		log.Fatalln(err)
 	}
 
-	log.Printf("serialNumber %s", string(client.DeviceInfo.SerialNumber()))
-	log.Printf("Client DeviceInfo\n%s\n", client.DeviceInfo)
-	client.RealLoadPictureEx(0, dhnetsdk.EventIvsAll, func(client *dhnetsdk.Client, alarmType dhnetsdk.EventIvs, alarmInfo interface{}, frame []byte, seq int) int {
+	log.Printf("serialNumber %s", string(ncli.DeviceInfo.SerialNumber()))
+	log.Printf("Client DeviceInfo\n%s\n", ncli.DeviceInfo)
+	ncli.RealLoadPictureEx(0, dhnetsdk.EventIvsAll, func(client *dhnetsdk.Client, alarmType dhnetsdk.EventIvs, alarmInfo interface{}, frame []byte, seq int) int {
 		switch alarmType {
 		case dhnetsdk.EventIvsTrafficParking,
 			dhnetsdk.EventIvsTrafficParkingB,

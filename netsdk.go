@@ -410,7 +410,7 @@ func LoginWithLevelSecurity(security *LoginSecurity, out *LoginSecurityOut) (int
 
 type LoginOptFunc func(*LoginSecurity)
 
-func (cli *Client) Login(addr string, user, pass string, opts ...LoginOptFunc) (err error) {
+func (cli *Client) Login(addr string, user, pass string, opts ...LoginOptFunc) (ncli *Client, err error) {
 	var (
 		security LoginSecurity
 		port     int
@@ -425,10 +425,10 @@ func (cli *Client) Login(addr string, user, pass string, opts ...LoginOptFunc) (
 	if len(addrs) == 2 {
 		addr = addrs[0]
 		if port, err = strconv.Atoi(addrs[1]); err != nil {
-			return err
+			return nil, err
 		}
 	} else {
-		return ErrInvalidAddress
+		return nil, ErrInvalidAddress
 	}
 	security.SetIP(addr)
 	security.SetPort(port)
@@ -437,9 +437,11 @@ func (cli *Client) Login(addr string, user, pass string, opts ...LoginOptFunc) (
 
 	id, err := LoginWithLevelSecurity(&security, &out)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	cli.LoginID = id
-	cli.DeviceInfo = *out.DeviceInfo()
-	return nil
+	ncli = &Client{
+		LoginID:    id,
+		DeviceInfo: *out.DeviceInfo(),
+	}
+	return ncli, nil
 }
