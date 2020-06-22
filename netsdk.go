@@ -201,7 +201,7 @@ func (login *LoginSecurity) init() {
 
 func (login *LoginSecurity) IP() string {
 	login.init()
-	return C.GoStringN(&login.cptr.szIP[0], 64)
+	return GoStr(&login.cptr.szIP[0], 64)
 }
 
 func (login *LoginSecurity) SetIP(ip string) {
@@ -221,7 +221,7 @@ func (login *LoginSecurity) SetPort(port int) {
 
 func (login *LoginSecurity) UserName() string {
 	login.init()
-	return C.GoStringN(&login.cptr.szUserName[0], 64)
+	return GoStr(&login.cptr.szUserName[0], 64)
 }
 
 func (login *LoginSecurity) SetUserName(username string) {
@@ -231,7 +231,7 @@ func (login *LoginSecurity) SetUserName(username string) {
 
 func (login *LoginSecurity) Password() string {
 	login.init()
-	return C.GoStringN(&login.cptr.szPassword[0], 64)
+	return GoStr(&login.cptr.szPassword[0], 64)
 }
 
 func (login *LoginSecurity) SetPassword(password string) {
@@ -305,7 +305,7 @@ const DhSerialnoLen = 48 // 设备序列号字符长度
 func (di *DeviceInfo) SerialNumber() string {
 	di.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&di.cptr.sSerialNumber[0])), DhSerialnoLen)
+	return GoStr((*C.char)(unsafe.Pointer(&di.cptr.sSerialNumber[0])), DhSerialnoLen)
 }
 
 func (di *DeviceInfo) AlarmInPort() int {

@@ -82,7 +82,7 @@ func (nsd *NetSearchDevice) Start(callback SearchDeviceFunc, sendType SendSearch
 func (nsd *NetSearchDevice) LocalIP() string {
 	nsd.init()
 
-	return C.GoStringN((*C.char)(&nsd.incptr.szLocalIp[0]), C.MAX_LOCAL_IP_LEN)
+	return GoStr((*C.char)(&nsd.incptr.szLocalIp[0]), C.MAX_LOCAL_IP_LEN)
 }
 
 func (nsd *NetSearchDevice) SetLocalIP(ip string) {

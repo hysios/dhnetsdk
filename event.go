@@ -71,7 +71,7 @@ func (tpark *TrafficParkingInfo) SetChannelID(ver int) {
 func (tpark *TrafficParkingInfo) Name() string {
 	tpark.init()
 
-	return C.GoStringN((*C.char)(&tpark.cptr.szName[0]), 128)
+	return GoStr((*C.char)(&tpark.cptr.szName[0]), 128)
 }
 
 func (tpark *TrafficParkingInfo) SetName(name string) {
@@ -333,7 +333,7 @@ func (tpark *TrafficParkingInfo) SetAlarmRecordSize(size int) {
 func (tpark *TrafficParkingInfo) AlarmRecordPath() string {
 	tpark.init()
 
-	return C.GoStringN((*C.char)(&tpark.cptr.szAlarmRecordPath[0]), C.DH_COMMON_STRING_256)
+	return GoStr((*C.char)(&tpark.cptr.szAlarmRecordPath[0]), C.DH_COMMON_STRING_256)
 }
 
 func (tpark *TrafficParkingInfo) SetAlarmRecordPath(name string) {
@@ -351,7 +351,7 @@ func (tpark *TrafficParkingInfo) SetAlarmRecordPath(name string) {
 func (tpark *TrafficParkingInfo) FTPPath() string {
 	tpark.init()
 
-	return C.GoStringN((*C.char)(&tpark.cptr.szFTPPath[0]), C.DH_COMMON_STRING_256)
+	return GoStr((*C.char)(&tpark.cptr.szFTPPath[0]), C.DH_COMMON_STRING_256)
 }
 
 func (tpark *TrafficParkingInfo) SetFTPPath(name string) {

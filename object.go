@@ -42,7 +42,7 @@ func (obj *DhObject) SetObjectID(id int) {
 
 func (obj *DhObject) ObjectType() string {
 	obj.init()
-	return C.GoStringN((*C.char)(&obj.cptr.szObjectType[0]), 128)
+	return GoStr((*C.char)(&obj.cptr.szObjectType[0]), 128)
 }
 
 func (obj *DhObject) SetObjectType(objtyp string) {
@@ -177,7 +177,7 @@ func (obj *DhObject) SetMainColor(clr color.RGBA) {
 func (obj *DhObject) Text() string {
 	obj.init()
 
-	return C.GoStringN((*C.char)(&obj.cptr.szText[0]), 128)
+	return GoStr((*C.char)(&obj.cptr.szText[0]), 128)
 }
 
 func (obj *DhObject) SetText(txt string) {
@@ -195,7 +195,7 @@ func (obj *DhObject) SetText(txt string) {
 func (obj *DhObject) ObjectSubType() string {
 	obj.init()
 
-	return C.GoStringN((*C.char)(&obj.cptr.szObjectSubType[0]), 128)
+	return GoStr((*C.char)(&obj.cptr.szObjectSubType[0]), 128)
 }
 
 func (obj *DhObject) SetObjectSubType(typ string) {
@@ -476,7 +476,7 @@ func (obj *DhObject) SetRelativeID(n int) {
 func (obj *DhObject) SubText() string {
 	obj.init()
 
-	return C.GoStringN((*C.char)(&obj.cptr.szSubText[0]), 20)
+	return GoStr((*C.char)(&obj.cptr.szSubText[0]), 20)
 }
 
 func (obj *DhObject) SetSubText(txt string) {
@@ -674,7 +674,7 @@ func (pic *DhPicInfo) SetHeight(high int) {
 func (pic *DhPicInfo) FilePath() string {
 	pic.init()
 
-	return C.GoStringN((*C.char)(pic.cptr.pszFilePath), pic.cptr.nFilePathLen)
+	return GoStr((*C.char)(pic.cptr.pszFilePath), pic.cptr.nFilePathLen)
 }
 
 func (pic *DhPicInfo) SetFilePath(txt string) {

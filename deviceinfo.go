@@ -45,7 +45,7 @@ func (devinfoex *DeviceNetInfoEx) init() {
 
 func (devinfoex *DeviceNetInfoEx) LocalIP() string {
 	devinfoex.init()
-	return C.GoStringN((*C.char)(&devinfoex.cptr.szLocalIP[0]), 64)
+	return GoStr((*C.char)(&devinfoex.cptr.szLocalIP[0]), 64)
 }
 
 func (devinfoex *DeviceNetInfoEx) SetLocalIP(ip string) {
@@ -74,7 +74,7 @@ func (devinfo *DeviceNetInfo) SetIPVersion(ver int) {
 func (devinfo *DeviceNetInfo) IP() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(&devinfo.cptr.szIP[0]), 64)
+	return GoStr((*C.char)(&devinfo.cptr.szIP[0]), 64)
 }
 
 func (devinfo *DeviceNetInfo) SetIP(ip string) {
@@ -104,7 +104,7 @@ func (devinfo *DeviceNetInfo) SetPort(port int) {
 func (devinfo *DeviceNetInfo) Submask() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(&devinfo.cptr.szSubmask[0]), 64)
+	return GoStr((*C.char)(&devinfo.cptr.szSubmask[0]), 64)
 }
 
 func (devinfo *DeviceNetInfo) SetSubmask(mask string) {
@@ -122,7 +122,7 @@ func (devinfo *DeviceNetInfo) SetSubmask(mask string) {
 func (devinfo *DeviceNetInfo) Gateway() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(&devinfo.cptr.szGateway[0]), 64)
+	return GoStr((*C.char)(&devinfo.cptr.szGateway[0]), 64)
 }
 
 func (devinfo *DeviceNetInfo) SetGateway(gateway string) {
@@ -158,7 +158,7 @@ func (devinfo *DeviceNetInfo) SetMac(mac string) {
 func (devinfo *DeviceNetInfo) DeviceType() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(&devinfo.cptr.szDeviceType[0]), C.DH_DEV_TYPE_LEN)
+	return GoStr((*C.char)(&devinfo.cptr.szDeviceType[0]), C.DH_DEV_TYPE_LEN)
 }
 
 func (devinfo *DeviceNetInfo) SetDeviceType(devType string) {
@@ -212,7 +212,7 @@ func (devinfo *DeviceNetInfo) SetEnableDhcp(en bool) {
 func (devinfo *DeviceNetInfo) VerifyData() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.verifyData[0])), 88)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.verifyData[0])), 88)
 }
 
 func (devinfo *DeviceNetInfo) SetVerifyData(verify string) {
@@ -260,7 +260,7 @@ func (devinfo DeviceNetInfo) String() string {
 func (devinfo *DeviceNetInfo) SerialNo() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.szSerialNo[0])), C.DH_DEV_SERIALNO_LEN)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.szSerialNo[0])), C.DH_DEV_SERIALNO_LEN)
 }
 
 func (devinfo *DeviceNetInfo) SetSerialNo(serialno string) {
@@ -278,7 +278,7 @@ func (devinfo *DeviceNetInfo) SetSerialNo(serialno string) {
 func (devinfo *DeviceNetInfo) DevSoftVersion() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.szDevSoftVersion[0])), C.DH_MAX_URL_LEN)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.szDevSoftVersion[0])), C.DH_MAX_URL_LEN)
 }
 
 func (devinfo *DeviceNetInfo) SetDevSoftVersion(softver string) {
@@ -296,7 +296,7 @@ func (devinfo *DeviceNetInfo) SetDevSoftVersion(softver string) {
 func (devinfo *DeviceNetInfo) DetailType() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.szDetailType[0])), C.DH_DEV_TYPE_LEN)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.szDetailType[0])), C.DH_DEV_TYPE_LEN)
 }
 
 func (devinfo *DeviceNetInfo) SetDetailType(detail string) {
@@ -314,7 +314,7 @@ func (devinfo *DeviceNetInfo) SetDetailType(detail string) {
 func (devinfo *DeviceNetInfo) Vendor() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.szVendor[0])), C.DH_MAX_STRING_LEN)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.szVendor[0])), C.DH_MAX_STRING_LEN)
 }
 
 func (devinfo *DeviceNetInfo) SetVendor(vendor string) {
@@ -332,7 +332,7 @@ func (devinfo *DeviceNetInfo) SetVendor(vendor string) {
 func (devinfo *DeviceNetInfo) DevName() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.szDevName[0])), C.DH_MACHINE_NAME_NUM)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.szDevName[0])), C.DH_MACHINE_NAME_NUM)
 }
 
 func (devinfo *DeviceNetInfo) SetDevName(devname string) {
@@ -350,7 +350,7 @@ func (devinfo *DeviceNetInfo) SetDevName(devname string) {
 func (devinfo *DeviceNetInfo) UserName() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.szUserName[0])), C.DH_USER_NAME_LENGTH_EX)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.szUserName[0])), C.DH_USER_NAME_LENGTH_EX)
 }
 
 func (devinfo *DeviceNetInfo) SetUserName(username string) {
@@ -368,7 +368,7 @@ func (devinfo *DeviceNetInfo) SetUserName(username string) {
 func (devinfo *DeviceNetInfo) Password() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.szPassWord[0])), C.DH_USER_NAME_LENGTH_EX)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.szPassWord[0])), C.DH_USER_NAME_LENGTH_EX)
 }
 
 func (devinfo *DeviceNetInfo) SetPassword(password string) {
@@ -474,7 +474,7 @@ func (devinfo *DeviceNetInfo) SetNewWordLen(n bool) {
 func (devinfo *DeviceNetInfo) NewPassWord() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.szNewPassWord[0])), C.DH_COMMON_STRING_64)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.szNewPassWord[0])), C.DH_COMMON_STRING_64)
 }
 
 func (devinfo *DeviceNetInfo) SetNewPassWord(password string) {
@@ -528,7 +528,7 @@ func (devinfo *DeviceNetInfo) SetSpecialAbility(n int) {
 func (devinfo *DeviceNetInfo) NewDetailType() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.szNewDetailType[0])), C.DH_COMMON_STRING_64)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.szNewDetailType[0])), C.DH_COMMON_STRING_64)
 }
 
 func (devinfo *DeviceNetInfo) SetNewDetailType(detail string) {
@@ -563,7 +563,7 @@ func (devinfo *DeviceNetInfo) SetHasNewUserName(n bool) {
 func (devinfo *DeviceNetInfo) NewUserName() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.szNewUserName[0])), C.DH_COMMON_STRING_64)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.szNewUserName[0])), C.DH_COMMON_STRING_64)
 }
 
 func (devinfo *DeviceNetInfo) SetNewUserName(username string) {
@@ -593,7 +593,7 @@ func (devinfo *DeviceNetInfo) SetPwdFindVersion(n int) {
 func (devinfo *DeviceNetInfo) DeviceID() string {
 	devinfo.init()
 
-	return C.GoStringN((*C.char)(unsafe.Pointer(&devinfo.cptr.szDeviceID[0])), C.DH_DEV_CUSTOM_DEVICEID_LEN)
+	return GoStr((*C.char)(unsafe.Pointer(&devinfo.cptr.szDeviceID[0])), C.DH_DEV_CUSTOM_DEVICEID_LEN)
 }
 
 func (devinfo *DeviceNetInfo) SetDeviceID(deviceid string) {

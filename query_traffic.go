@@ -185,7 +185,7 @@ func (media *MediaQueryTrafficcar) SetEventTypes(events []EventIvs) {
 func (media *MediaQueryTrafficcar) PlateNumber() string {
 	media.init()
 
-	return C.GoStringN(&media.cptr.szPlateNumber[0], 32)
+	return GoStr(&media.cptr.szPlateNumber[0], 32)
 }
 
 func (media *MediaQueryTrafficcar) SetPlateNumber(plate string) {

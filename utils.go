@@ -19,6 +19,7 @@ import (
 	"strings"
 	"text/tabwriter"
 	"time"
+	"unsafe"
 )
 
 func nt2time(nt C.NET_TIME) time.Time {
@@ -133,4 +134,18 @@ func hex2rgb(hclr int) color.Color {
 
 func rgb2hex(clr color.RGBA) int {
 	return int(clr.R)<<24 | int(clr.G)<<16 | int(clr.B)<<8
+}
+
+func GoStr(ptr *C.char, n C.int) string {
+	var max = int(n)
+	for i := 0; i < max; i++ {
+		r := *(*rune)(unsafe.Pointer(uintptr(unsafe.Pointer(ptr)) + uintptr(i)))
+		if r == '\x00' {
+			max = i + 1
+			break
+		}
+	}
+
+	return GoStr(ptr, C.int(max))
+
 }
