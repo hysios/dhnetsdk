@@ -211,13 +211,13 @@ func (tpark *TrafficParkingInfo) SetImageIndex(idx int) {
 func (tpark *TrafficParkingInfo) StartParkingTime() time.Time {
 	tpark.init()
 
-	return ntex2time(tpark.cptr.stuStartParkingTime)
+	return ntdate2time(tpark.cptr.stuStartParkingTime)
 }
 
 func (tpark *TrafficParkingInfo) SetStartParkingTime(t time.Time) {
 	tpark.init()
 
-	tpark.cptr.stuStartParkingTime = time2ntex(t)
+	tpark.cptr.stuStartParkingTime = time2ntdate(t)
 }
 
 func (tpark *TrafficParkingInfo) Sequence() int {

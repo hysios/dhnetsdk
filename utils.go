@@ -51,6 +51,22 @@ func ntex2time(nt C.NET_TIME_EX) time.Time {
 		time.Local)
 }
 
+const Day = time.Hour * 24
+
+func ntdate2time(nt C.NET_TIME_EX) time.Time {
+	t := time.Now()
+	return time.Date(
+		t.Year(),
+		time.Month(nt.dwYear),
+		int(nt.dwMonth),
+		int(nt.dwDay),
+		int(nt.dwHour),
+		int(nt.dwMinute),
+		int(nt.dwSecond),
+		time.Local,
+	)
+}
+
 func time2ntex(t time.Time) C.NET_TIME_EX {
 	nano := t.UnixNano() % 1e6
 
@@ -63,6 +79,18 @@ func time2ntex(t time.Time) C.NET_TIME_EX {
 		dwSecond:      C.uint(t.Second()), // 秒
 		dwMillisecond: C.uint(nano),
 		dwUTC:         0,
+	}
+}
+
+func time2ntdate(t time.Time) C.NET_TIME_EX {
+	return C.NET_TIME_EX{
+		dwYear:   C.uint(t.Month()),  // 年
+		dwMonth:  C.uint(t.Day()),    // 月
+		dwDay:    C.uint(t.Hour()),   // 日
+		dwHour:   C.uint(t.Minute()), // 时
+		dwMinute: C.uint(t.Second()), // 分
+		dwSecond: C.uint(t.Second()), // 秒
+		dwUTC:    0,
 	}
 }
 
