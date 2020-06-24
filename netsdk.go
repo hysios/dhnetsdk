@@ -82,6 +82,8 @@ type Client struct {
 	messageVisitorp    unsafe.Pointer
 	disconnectVisitorp unsafe.Pointer
 	reconnectVisitorp  unsafe.Pointer
+
+	realpicHandle uint64
 	// SerialNumber []byte
 }
 

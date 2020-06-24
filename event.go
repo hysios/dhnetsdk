@@ -39,10 +39,21 @@ func (client *Client) RealLoadPictureEx(channel int, evt EventIvs, callback Pict
 			Callback: callback,
 		}
 	)
+
+	client.StopLoadPic()
+
 	p := pointer.Save(v)
 	client.pictureVisitorp = p
 
-	C.CLIENT_RealLoadPictureEx(C.LLONG(client.LoginID), C.int(channel), C.uint(EventIvsAll), 1, C.fAnalyzerDataCallBack(C.cAnalyzerDataCallBack), C.LDWORD(uintptr(p)), nil)
+	client.realpicHandle = C.CLIENT_RealLoadPictureEx(C.LLONG(client.LoginID), C.int(channel), C.uint(EventIvsAll), 1, C.fAnalyzerDataCallBack(C.cAnalyzerDataCallBack), C.LDWORD(uintptr(p)), nil)
+}
+
+func (client *Client) StopLoadPic() bool {
+	if client.realpicHandle > 0 {
+		b := C.CLIENT_StopLoadPic(C.LLONG(client.realpicHandle))
+		return b > 0
+	}
+	return false
 }
 
 type TrafficParkingInfo struct {
