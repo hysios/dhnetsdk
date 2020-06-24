@@ -50,7 +50,7 @@ func (client *Client) RealLoadPictureEx(channel int, evt EventIvs, callback Pict
 
 func (client *Client) StopLoadPic() bool {
 	if client.realpicHandle > 0 {
-		b := C.CLIENT_StopLoadPic(C.LLONG(client.realpicHandle))
+		b := C.CLIENT_StopLoadPicEx(C.LLONG(client.realpicHandle))
 		return b > 0
 	}
 	return false
