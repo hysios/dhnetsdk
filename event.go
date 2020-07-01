@@ -20,6 +20,7 @@ package dhnetsdk
 import "C"
 
 import (
+	"image"
 	"time"
 	"unsafe"
 
@@ -172,17 +173,11 @@ func (tpark *TrafficParkingInfo) SetLane(lane int) {
 	tpark.cptr.nLane = C.int(lane)
 }
 
-// func (tpark *TrafficParkingInfo) FileInfo() float64 {
-// 	tpark.init()
+func (tpark *TrafficParkingInfo) FileInfo() EventFileInfo {
+	tpark.init()
 
-// 	return int(tpark.cptr.PTS)
-// }
-
-// func (tpark *TrafficParkingInfo) stuFileInfo(pts float64) {
-// 	tpark.init()
-
-// 	tpark.cptr.PTS = C.double(pts)
-// }
+	return EventFileInfo{cptr: &tpark.cptr.stuFileInfo}
+}
 
 func (tpark *TrafficParkingInfo) EventAction() int {
 	tpark.init()
@@ -302,17 +297,17 @@ func (tpark *TrafficParkingInfo) SetSnapFlagMask(n int) {
 	tpark.cptr.dwSnapFlagMask = C.DWORD(n)
 }
 
-// func (tpark *TrafficParkingInfo) stuResolution() float64 {
-// 	tpark.init()
+func (tpark *TrafficParkingInfo) Resolution() image.Rectangle {
+	tpark.init()
+	return image.Rect(0, 0, int(tpark.cptr.stuResolution.snWidth), int(tpark.cptr.stuResolution.snHight))
+}
 
-// 	return int(tpark.cptr.PTS)
-// }
+func (tpark *TrafficParkingInfo) stuResolution(rect image.Rectangle) {
+	tpark.init()
 
-// func (tpark *TrafficParkingInfo) stuResolution(pts float64) {
-// 	tpark.init()
-
-// 	tpark.cptr.PTS = C.double(pts)
-// }
+	tpark.cptr.stuResolution.snWidth = C.ushort(rect.Size().X)
+	tpark.cptr.stuResolution.snHight = C.ushort(rect.Size().Y)
+}
 
 func (tpark *TrafficParkingInfo) IsExistAlarmRecord() bool {
 	tpark.init()

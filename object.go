@@ -715,3 +715,81 @@ func (pic *DhPicInfo) SetPoint(point DhPoint) {
 func (pic DhPicInfo) String() string {
 	return FormatString(&pic)
 }
+
+// BYTE               bCount;                               // 当前文件所在文件组中的文件总数
+// BYTE               bIndex;                               // 当前文件在文件组中的文件编号(编号1开始)
+// BYTE               bFileTag;                             // 文件标签, EM_EVENT_FILETAG
+// BYTE               bFileType;                            // 文件类型,0-普通 1-合成 2-抠图
+// NET_TIME_EX        stuFileTime;                          // 文件时间
+// DWORD              nGroupId;                             // 同一组抓拍文件的唯一标识
+type EventFileInfo struct {
+	cptr *C.DH_EVENT_FILE_INFO
+}
+
+func (evtfile *EventFileInfo) init() {
+	if evtfile.cptr != nil {
+		return
+	}
+
+	evtfile.cptr = &C.DH_EVENT_FILE_INFO{}
+}
+
+func (evtfile *EventFileInfo) Count() int {
+	evtfile.init()
+
+	return int(evtfile.cptr.bCount)
+}
+
+func (evtfile *EventFileInfo) SetCount(c int) {
+	evtfile.init()
+
+	evtfile.cptr.bCount = C.BYTE(c)
+}
+
+func (evtfile *EventFileInfo) Index() int {
+	evtfile.init()
+
+	return int(evtfile.cptr.bIndex)
+}
+
+func (evtfile *EventFileInfo) SetIndex(i int) {
+	evtfile.init()
+
+	evtfile.cptr.bIndex = C.BYTE(i)
+}
+
+func (evtfile *EventFileInfo) FileType() int {
+	evtfile.init()
+
+	return int(evtfile.cptr.bFileType)
+}
+
+func (evtfile *EventFileInfo) SetFileType(i int) {
+	evtfile.init()
+
+	evtfile.cptr.bFileType = C.BYTE(i)
+}
+
+func (evtfile *EventFileInfo) FileTime() time.Time {
+	evtfile.init()
+
+	return ntex2time(evtfile.cptr.stuFileTime)
+}
+
+func (evtfile *EventFileInfo) SetFileTime(t time.Time) {
+	evtfile.init()
+
+	evtfile.cptr.stuFileTime = time2ntex(t)
+}
+
+func (evtfile *EventFileInfo) GroupID() int {
+	evtfile.init()
+
+	return int(evtfile.cptr.nGroupId)
+}
+
+func (evtfile *EventFileInfo) SetGroupID(i int) {
+	evtfile.init()
+
+	evtfile.cptr.nGroupId = C.DWORD(i)
+}
