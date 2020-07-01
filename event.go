@@ -299,10 +299,11 @@ func (tpark *TrafficParkingInfo) SetSnapFlagMask(n int) {
 
 func (tpark *TrafficParkingInfo) Resolution() image.Rectangle {
 	tpark.init()
+
 	return image.Rect(0, 0, int(tpark.cptr.stuResolution.snWidth), int(tpark.cptr.stuResolution.snHight))
 }
 
-func (tpark *TrafficParkingInfo) stuResolution(rect image.Rectangle) {
+func (tpark *TrafficParkingInfo) SetResolution(rect image.Rectangle) {
 	tpark.init()
 
 	tpark.cptr.stuResolution.snWidth = C.ushort(rect.Size().X)
