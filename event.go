@@ -20,7 +20,6 @@ package dhnetsdk
 import "C"
 
 import (
-	"image"
 	"time"
 	"unsafe"
 
@@ -297,18 +296,18 @@ func (tpark *TrafficParkingInfo) SetSnapFlagMask(n int) {
 	tpark.cptr.dwSnapFlagMask = C.DWORD(n)
 }
 
-func (tpark *TrafficParkingInfo) Resolution() image.Rectangle {
-	tpark.init()
+// func (tpark *TrafficParkingInfo) Resolution() image.Rectangle {
+// 	tpark.init()
 
-	return image.Rect(0, 0, int(tpark.cptr.stuResolution.snWidth), int(tpark.cptr.stuResolution.snHight))
-}
+// 	return image.Rect(0, 0, int(tpark.cptr.stuResolution.snWidth), int(tpark.cptr.stuResolution.snHight))
+// }
 
-func (tpark *TrafficParkingInfo) SetResolution(rect image.Rectangle) {
-	tpark.init()
+// func (tpark *TrafficParkingInfo) SetResolution(rect image.Rectangle) {
+// 	tpark.init()
 
-	tpark.cptr.stuResolution.snWidth = C.ushort(rect.Size().X)
-	tpark.cptr.stuResolution.snHight = C.ushort(rect.Size().Y)
-}
+// 	tpark.cptr.stuResolution.snWidth = C.ushort(rect.Size().X)
+// 	tpark.cptr.stuResolution.snHight = C.ushort(rect.Size().Y)
+// }
 
 func (tpark *TrafficParkingInfo) IsExistAlarmRecord() bool {
 	tpark.init()
